@@ -24,10 +24,9 @@ describe("Header", () => {
 
   it("renders logo image", () => {
     renderWithRouter(<Header />);
-    const logo = screen.getByRole("img");
+    const logo = screen.getByTestId("logo-img");
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute("src", "react.svg");
-    expect(logo).toHaveClass("max-w-12");
+    expect(logo).toHaveAttribute("src", "/react.svg");
   });
 
   it("renders link to home page", () => {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProductsDomain;
 using ProductsDomain.Application.Commands.SeedDb;
+using ProductsDomain.Infrastructure.Persistence;
 using ProductsDomain.Middleware;
 using Scalar.AspNetCore;
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 //CORS configuration - allows all origins, methods, and headers
-//(use only for testing/presentation purposes) 
+//(use only for testing/presentation purposes)
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -22,13 +23,16 @@ builder.Services.AddCors(options =>
 });
 
 //add our domain service
-builder.Services.AddProductsDomain();
+builder.Services.AddProductsDomain(builder.Configuration);
 
 WebApplication app = builder.Build();
 
-// Seed sample data
+// Apply database migrations and seed sample data
 using (IServiceScope scope = app.Services.CreateScope())
 {
+    ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+
     SeedDbCommandHandler seedDbHandler = scope.ServiceProvider.GetRequiredService<SeedDbCommandHandler>();
     await seedDbHandler.HandleAsync();
 }

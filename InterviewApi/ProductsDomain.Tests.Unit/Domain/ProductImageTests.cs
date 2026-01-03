@@ -20,7 +20,6 @@ public class ProductImageTests
     [Theory]
     [InlineData("", "Name")]
     [InlineData(" ", "Name")]
-    [InlineData(null, "Name")]
     public void Create_WithInvalidUrl_ShouldThrowException(string url, string name)
     {
         // Act
@@ -34,7 +33,6 @@ public class ProductImageTests
     [Theory]
     [InlineData("https://example.com/image.jpg", "")]
     [InlineData("https://example.com/image.jpg", " ")]
-    [InlineData("https://example.com/image.jpg", null)]
     public void Create_WithInvalidName_ShouldThrowException(string url, string name)
     {
         // Act

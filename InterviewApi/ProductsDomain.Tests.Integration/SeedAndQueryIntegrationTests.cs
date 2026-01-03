@@ -12,7 +12,7 @@ public class SeedAndQueryIntegrationTests : IntegrationTestBase
     {
         // Arrange
         var seedHandler = new SeedDbCommandHandler(Context);
-        var getAllHandler = new GetAllProductsQueryHandler(Repository);
+        var getAllHandler = new GetAllProductsQueryHandler(Repository, ImageValidationService);
 
         // Act - Seed the database
         await seedHandler.HandleAsync();

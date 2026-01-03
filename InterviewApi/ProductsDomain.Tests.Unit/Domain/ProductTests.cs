@@ -115,4 +115,64 @@ public class ProductTests
         // Assert
         product.Images.Should().HaveCount(3);
     }
+
+    [Fact]
+    public void SetImages_WithNewImages_ShouldReplaceExistingImages()
+    {
+        // Arrange
+        Product product = Product.Create("Name", "P001", "Description");
+        product.AddImage("https://example.com/old1.jpg", "Old Image 1");
+        product.AddImage("https://example.com/old2.jpg", "Old Image 2");
+
+        var newImages = new List<ProductImage>
+        {
+            ProductImage.Create("https://example.com/new1.jpg", "New Image 1"),
+            ProductImage.Create("https://example.com/new2.jpg", "New Image 2"),
+            ProductImage.Create("https://example.com/new3.jpg", "New Image 3")
+        };
+
+        // Act
+        product.SetImages(newImages);
+
+        // Assert
+        product.Images.Should().HaveCount(3);
+        product.Images.Should().Contain(img => img.Name == "New Image 1");
+        product.Images.Should().Contain(img => img.Name == "New Image 2");
+        product.Images.Should().Contain(img => img.Name == "New Image 3");
+        product.Images.Should().NotContain(img => img.Name == "Old Image 1");
+        product.Images.Should().NotContain(img => img.Name == "Old Image 2");
+    }
+
+    [Fact]
+    public void SetImages_WithEmptyList_ShouldClearAllImages()
+    {
+        // Arrange
+        Product product = Product.Create("Name", "P001", "Description");
+        product.AddImage("https://example.com/image1.jpg", "Image 1");
+        product.AddImage("https://example.com/image2.jpg", "Image 2");
+
+        // Act
+        product.SetImages(new List<ProductImage>());
+
+        // Assert
+        product.Images.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void SetImages_OnProductWithNoImages_ShouldAddImages()
+    {
+        // Arrange
+        Product product = Product.Create("Name", "P001", "Description");
+        var images = new List<ProductImage>
+        {
+            ProductImage.Create("https://example.com/image1.jpg", "Image 1")
+        };
+
+        // Act
+        product.SetImages(images);
+
+        // Assert
+        product.Images.Should().HaveCount(1);
+        product.Images.First().Name.Should().Be("Image 1");
+    }
 }

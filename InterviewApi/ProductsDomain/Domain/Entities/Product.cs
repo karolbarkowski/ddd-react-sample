@@ -46,6 +46,7 @@ public class Product : Entity
             throw new ArgumentException("Product description cannot be empty", nameof(description));
 
         Name = name;
+        Number = number;
         Description = description;
     }
 
@@ -53,5 +54,11 @@ public class Product : Entity
     {
         ProductImage image = ProductImage.Create(url, name);
         _images.Add(image);
+    }
+
+    public void SetImages(List<ProductImage> images)
+    {
+        _images.Clear();
+        _images.AddRange(images);
     }
 }
