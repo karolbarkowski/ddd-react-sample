@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Api/Api.csproj" Id="317ce056-32ed-407b-9763-a3f181485913" />
+  <Project Path="ProductsDomain.Tests.Integration/ProductsDomain.Tests.Integration.csproj" />
+  <Project Path="ProductsDomain.Tests.Unit/ProductsDomain.Tests.Unit.csproj" />
+  <Project Path="ProductsDomain/ProductsDomain.csproj" Id="e909df6e-e5f9-4170-b29f-99717fc6c405" />
+</Solution>
